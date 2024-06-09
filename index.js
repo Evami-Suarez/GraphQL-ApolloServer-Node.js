@@ -9,11 +9,11 @@ import { typeDefs } from "./schema.js"
 
 const resolvers = {
     Query: {
-        games() {
-            return db.games
+        movies() {
+            return db.movies
         },
-        game(_,args) {
-            return db.games.find((game) => game.id === args.id)
+        movie(_,args) {
+            return db.movies.find((movie) => movie.id === args.id)
         },
         authors() {
             return db.authors
@@ -28,9 +28,9 @@ const resolvers = {
             return db.reviews.find((review) => review.id === args.id)
         }
      },
-     Game: {
+     Movie: {
         reviews(parent) {
-            return db.reviews.filter((r) => r.game_id === parent.id)
+            return db.reviews.filter((r) => r.movie_id === parent.id)
         }
      },
      Author: {
@@ -42,32 +42,32 @@ const resolvers = {
         author(parent) {
             return db.authors.find((a) => a.id === parent.author_id)
         },
-        game(parent) {
-            return db.games.find((g) => g.id === parent.game_id)
+        movie(parent) {
+            return db.movies.find((g) => g.id === parent.movie_id)
         }
      },
      Mutation: {
-        deleteGame(_, args) {
-            db.games = db.games.filter((g) => g.id !== args.id)
-            return db.games
+        deleteMovie(_, args) {
+            db.movies = db.movies.filter((g) => g.id !== args.id)
+            return db.movies
         },
-        addGame(_,args) {
-            let game = {
-                ...args.game,
+        addMovie(_,args) {
+            let movie = {
+                ...args.movie,
                 id: Math.floor(Math.random()* 10000).toString()
             }
-            db.games.push(game)
+            db.movies.push(movie)
 
-            return game
+            return movie
         },
-        updateGame(_, args) {
-            db.games = db.games.map((g) => {
+        updateMovie(_, args) {
+            db.movies = db.movies.map((g) => {
                 if (g.id === args.id) {
                     return {...g, ...args.edits}
                 }
                 return g
             })
-            return db.games.find((g) => g.id === args.id)
+            return db.movies.find((g) => g.id === args.id)
         }
      }
 
